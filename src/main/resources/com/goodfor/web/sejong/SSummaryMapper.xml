@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.goodfor.web.sejong.SSummaryMapper">
+
+	<select id="createSSummary" resultType="map">
+	${CREATE_SUMMARY}
+	</select>
+	
+	<select id="dropSSummary" resultType="map">
+	${DROP_SUMMARY}
+	</select>
+	
+	<insert id="insertSSummary" parameterType="SSummary">
+		INSERT INTO SUMMARY (CACCOUNT, STOCKCODE, TRADETYPE, ORDERTYPE, TCOUNT, TAMOUNT, FTAMOUNT, CREATEDATE)
+		VALUES ( #{caccount}, #{stockcode}, #{tradetype}, #{ordertype}, #{tcount}, #{tamount}, #{ftamount}, #{createdate} )
+	</insert>
+	
+	<insert id="insertBoard" parameterType="Board">
+		INSERT INTO BOARD (WRITER, CTYPE, TITLE, CONTENT, CREDATE, MODIDATE, ATTFILE)
+		VALUES ( #{writer}, #{ctype}, #{title}, #{content}, #{credate}, #{modidate}, #{attfile})
+	</insert>
+	
+	<select id="selectTcaseSummary" resultType="String">
+		SELECT COUNT(*) FROM SUMMARY
+	</select>
+	
+	<select id="selectTamountSummary" resultType="String">
+		SELECT SUM(TAMOUNT) FROM SUMMARY
+	</select>
+	
+	<select id="selectScaseSummary" resultType="String">
+		SELECT COUNT(*) FROM SUMMARY WHERE TRADETYPE LIKE '1'
+	</select>
+	
+	<select id="selectSamountSummary" resultType="String">
+		SELECT SUM(TAMOUNT) FROM SUMMARY WHERE TRADETYPE LIKE '1'
+	</select>
+	
+	<select id="selectDcaseSummary" resultType="String">
+		SELECT COUNT(*) FROM SUMMARY WHERE TRADETYPE LIKE '2'
+	</select>
+	
+	<select id="selectDamountSummary" resultType="String">
+		SELECT SUM(TAMOUNT) FROM SUMMARY WHERE TRADETYPE LIKE '2'
+	</select>
+	
+	<select id="selectStcase" resultType="String">
+		SELECT COUNT(*) FROM SUMMARY WHERE FTAMOUNT >= 5000000
+	</select>
+	
+	<select id="selectRecentMonth" resultType="string">
+		SELECT SUBSTR(CREATEDATE, 1, 6) MONTH FROM SUMMARY GROUP BY SUBSTR(CREATEDATE, 1, 6) ORDER BY SUBSTR(CREATEDATE, 1, 6) DESC	LIMIT 6
+	</select>
+	
+	<select id="selectRecentAmount" resultType="string">
+		SELECT ROUND(SUM(FTAMOUNT)/1000000,1) AMOUNT FROM SUMMARY GROUP BY SUBSTR(CREATEDATE, 1, 6) ORDER BY SUBSTR(CREATEDATE, 1, 6) DESC	LIMIT 6
+	</select>
+	
+	<select id="selectStcaseFromSSummary" resultType="SSummary">
+		SELECT * FROM SUMMARY WHERE FTAMOUNT >= 5000000
+	</select>
+	
+</mapper>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.goodfor.web.customer.CustomerMapper">
+	
+	<select id="customerCount" resultType="int">
+		 SELECT COUNT(*) COUNT FROM CUSTOMER
+	</select>
+	
+	<insert id="insertCustomerJoin" parameterType="Customer">
+		INSERT INTO CUSTOMER(CID, CPW, CNAME, EMAIL, PNUMBER, INVEST, RATING)
+			VALUES(#{cid}, #{cpw}, #{cname}, #{email}, #{pnumber}, #{invest}, "1")
+	</insert>
+	
+	 <select id="selectExistId" resultType="int">
+        SELECT COUNT(*) FROM CUSTOMER WHERE CID LIKE #{cid}
+    </select>
+	
+	<select id="selectCustomerLogin" resultType="Customer" >
+		SELECT * FROM CUSTOMER WHERE CID LIKE #{cid} AND CPW LIKE #{cpw};			
+	</select>
+	
+	<select id="selectAllCustomer" resultType="Customer">
+		SELECT * FROM CUSTOMER WHERE CID LIKE #{cid}
+	</select>
+	
+</mapper>
